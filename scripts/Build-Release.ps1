@@ -10,14 +10,24 @@ $applicationSource=$output+'-source.zip'
 if((Test-Path -LiteralPath $output) -or (Test-Path -LiteralPath $zipPath) -or (Test-Path -LiteralPath $applicationSource)){throw 'Output already exists; choose a new OutputName. Nothing overwritten.'}
 & "$PSScriptRoot/Prepare-PackageInputs.ps1"
 if($LASTEXITCODE -and $LASTEXITCODE -ne 0){throw 'Packaging input verification failed'}
-& cargo build --locked --release --target x86_64-pc-windows-msvc --target-dir target/package
-if($LASTEXITCODE -ne 0){throw 'Release build failed'}
+$previousFlags=$env:CARGO_ENCODED_RUSTFLAGS
+try {
+ $flags=@("--remap-path-prefix=$root=.","--remap-path-prefix=$env:USERPROFILE=C:/build/user") -join [char]31
+ $env:CARGO_ENCODED_RUSTFLAGS=if($previousFlags){$previousFlags+[char]31+$flags}else{$flags}
+ & cargo build --locked --release --target x86_64-pc-windows-msvc --target-dir target/package
+ if($LASTEXITCODE -ne 0){throw 'Release build failed'}
+} finally {$env:CARGO_ENCODED_RUSTFLAGS=$previousFlags}
 $metadata=(& cargo metadata --locked --format-version 1 | Out-String | ConvertFrom-Json)
 if($LASTEXITCODE -ne 0){throw 'Cargo metadata failed'}
 foreach($dir in @('data/profiles','scripts','licenses/Interception','licenses/Inter-font','licenses/Rust','source','docs','vendor/interception/v1.0.1/Interception/command line installer')){
  New-Item -ItemType Directory -Force -Path (Join-Path $output $dir) | Out-Null
 }
 Copy-Item -LiteralPath target/package/x86_64-pc-windows-msvc/release/tartarus-v2be.exe -Destination (Join-Path $output 'Tartarus V2BE.exe')
+$binary=[IO.File]::ReadAllBytes((Join-Path $output 'Tartarus V2BE.exe'))
+foreach($encoding in @([Text.Encoding]::ASCII,[Text.Encoding]::Unicode)){
+ $text=$encoding.GetString($binary)
+ if($text.Contains($env:USERPROFILE)){throw 'Build-user path remains in executable; refusing to package it.'}
+}
 [IO.File]::WriteAllText((Join-Path $output 'data/config.json'),'{"schema_version":1,"mappings":{}}'+[Environment]::NewLine)
 [IO.File]::WriteAllText((Join-Path $output 'data/application.json'),'{"schema_version":1,"auto_remap":false,"open_browser":false,"show_tray":true}'+[Environment]::NewLine)
 [IO.File]::WriteAllText((Join-Path $output 'data/lighting.json'),'{"schema_version":1,"managed":false,"effect":"spectrum","color":[0,255,80],"brightness":75,"speed":2,"direction":1}'+[Environment]::NewLine)

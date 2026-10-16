@@ -22,6 +22,8 @@ The browser can be closed independently of the background runtime. Configuration
 
 ## Run a portable release
 
+[Download the Windows 11 x64 portable preview](https://github.com/Vibrant-Star/Tartarus-V2BE/releases/tag/v0.1.0-preview.1). Choose the portable ZIP under Assets; the source ZIP is a separate developer download. [All releases](https://github.com/Vibrant-Star/Tartarus-V2BE/releases).
+
 Extract the complete portable ZIP into a writable folder. Read START-HERE.md and RECOVERY.md. If Interception is already installed, skip driver installation. Otherwise the explicit driver helper requires administrator access, confirmation and a manual reboot. Double-click Tartarus V2BE.exe for quiet tray startup, or use Open configuration.cmd. Configuration is served at http://127.0.0.1:17832/.
 
 New releases start with native mappings, automatic remapping/autostart off and RGB management off. Back up data/ before updating. Remove the app and the shared Interception driver separately. Never delete driver files or unrelated input filters manually.
