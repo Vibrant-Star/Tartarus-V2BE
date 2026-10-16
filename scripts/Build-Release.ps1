@@ -83,7 +83,7 @@ foreach($action in @('Install','Uninstall','Verify')){
 $archive=[IO.Compression.ZipFile]::Open($applicationSource,[IO.Compression.ZipArchiveMode]::Create)
 try{
  $files=@('Cargo.toml','Cargo.lock','LICENSE','README.md','CONTRIBUTING.md','config.example.json','config.layers.example.json','config.wheel.example.json','.gitignore') | ForEach-Object {Get-Item -LiteralPath (Join-Path $root $_)}
- foreach($dir in @('src','web','scripts','packaging','docs','.github')){$files+=Get-ChildItem -LiteralPath (Join-Path $root $dir) -File -Recurse}
+ foreach($dir in @('src','web','scripts','packaging','docs','.github','assets')){$files+=Get-ChildItem -LiteralPath (Join-Path $root $dir) -File -Recurse}
  foreach($file in $files){
   $relative=$file.FullName.Substring($root.Length+1).Replace('\','/')
   [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive,$file.FullName,$relative,[IO.Compression.CompressionLevel]::Optimal) | Out-Null

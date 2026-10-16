@@ -1,5 +1,7 @@
 # Tartarus V2BE
 
+<p align="center"><img src="assets/silly-cat.png" alt="A silly cat, just for fun" width="200"><br><em>Just a silly cat. Not an official logo.</em></p>
+
 A lightweight Windows 11 x64 configuration utility and remapping runtime for the **Razer Tartarus V2 (1532:022B)**. Tartarus Pro is excluded. Synapse is not required.
 
 Vibe-coded with AI assistance and refined through hands-on hardware checks. Contributions and independent review are welcome.
