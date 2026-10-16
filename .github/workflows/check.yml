@@ -1,0 +1,15 @@
+name: Windows checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup component add rustfmt clippy
+      - run: cargo fmt -- --check
+      - run: cargo test --locked
+      - run: cargo clippy --locked -- -D warnings
+      - run: node --check web/app.js
+      - run: node --check web/layout.js

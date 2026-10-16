@@ -1,0 +1,11 @@
+/target/
+/vendor/
+/artifacts/
+/data/
+/dist/
+/research/
+*.log
+*.stderr
+*.synapse3
+*.download
+/Tartarus V2BE.exe

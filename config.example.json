@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "mappings": {
+    "01": { "type": "key", "key": "B" },
+    "02": { "type": "key", "key": "B" },
+    "03": { "type": "disabled" },
+    "thumb": { "type": "passthrough" }
+  }
+}

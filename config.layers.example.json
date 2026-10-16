@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "mappings": {
+    "01": { "type": "key", "key": "A" },
+    "wheel_up": { "type": "key", "key": "A" }
+  },
+  "layers": [
+    {
+      "name": "shifted",
+      "mappings": {
+        "01": { "type": "key", "key": "B" },
+        "wheel_up": { "type": "key", "key": "B" }
+      }
+    },
+    {
+      "name": "third",
+      "mappings": {
+        "01": { "type": "key", "key": "C" },
+        "wheel_up": { "type": "key", "key": "C" }
+      }
+    }
+  ],
+  "thumb": { "mode": "momentary", "layer": 1 }
+}
